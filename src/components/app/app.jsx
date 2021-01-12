@@ -2,10 +2,10 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
+import GameScreen from "../game-screen/game-screen.jsx";
 import GenreQuestionScreen from "../genre-question-screen/genre-question-screen";
 import ArtistQuestionScreen from "../artist-question-screen/artist-question-screen";
 import {GameType} from "../../const.js";
-
 
 class App extends PureComponent {
   constructor(props) {
@@ -38,25 +38,29 @@ class App extends PureComponent {
       switch (question.type) {
         case GameType.ARTIST:
           return (
-            <ArtistQuestionScreen
-              question={question}
-              onAnswer={() => {
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }));
-              }}
-            />
+            <GameScreen type={question.type}>
+              <ArtistQuestionScreen
+                question={question}
+                onAnswer={() => {
+                  this.setState((prevState) => ({
+                    step: prevState.step + 1,
+                  }));
+                }}
+              />
+            </GameScreen>
           );
         case GameType.GENRE:
           return (
-            <GenreQuestionScreen
-              question={question}
-              onAnswer={() => {
-                this.setState((prevState) => ({
-                  step: prevState.step + 1,
-                }));
-              }}
-            />
+            <GameScreen type={question.type}>
+              <GenreQuestionScreen
+                question={question}
+                onAnswer={() => {
+                  this.setState((prevState) => ({
+                    step: prevState.step + 1,
+                  }));
+                }}
+              />
+            </GameScreen>
           );
       }
     }
@@ -73,17 +77,21 @@ class App extends PureComponent {
           <Route exact path="/">
             {this._renderGameScreen()}
           </Route>
-          <Route exact path="/genre">
-            <GenreQuestionScreen
-              question={questions[0]}
-              onAnswer={() => { }}
-            />
-          </Route>
           <Route exact path="/artist">
-            <ArtistQuestionScreen
-              question={questions[1]}
-              onAnswer={() => { }}
-            />
+            <GameScreen type={GameType.ARTIST}>
+              <ArtistQuestionScreen
+                question={questions[1]}
+                onAnswer={() => { }}
+              />
+            </GameScreen>
+          </Route>
+          <Route exact path="/genre">
+            <GameScreen type={GameType.GENRE}>
+              <GenreQuestionScreen
+                question={questions[0]}
+                onAnswer={() => { }}
+              />
+            </GameScreen>
           </Route>
         </Switch>
       </BrowserRouter>
