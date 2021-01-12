@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {GameType} from "../../const.js";
+import AudioPlayer from "../audio-player/audio-player.jsx";
 
 
 class GenreQuestionScreen extends PureComponent {
@@ -8,12 +9,13 @@ class GenreQuestionScreen extends PureComponent {
     super(props);
 
     this.state = {
+      activePlayer: 0,
       answers: [false, false, false, false],
     };
   }
   render() {
     const {onAnswer, question} = this.props;
-    const {answers: userAnswers} = this.state;
+    const {answers: userAnswers, activePlayer} = this.state;
     const {answers, genre} = question;
 
     return (
@@ -30,10 +32,11 @@ class GenreQuestionScreen extends PureComponent {
           {answers.map((answer, i) => {
             return (
               <div key={`${i}-${answer.src}`} className="track">
-                <button className="track__button track__button--play" type="button" />
-                <div className="track__status">
-                  <audio src={answer.src} />
-                </div>
+                <AudioPlayer
+                  onPlayButtonClick={() => this.setState({activePlayer: activePlayer === i ? -1 : i})}
+                  isPlaying={i === activePlayer}
+                  src={answer.src}
+                />
                 <div className="game__answer">
                   <input className="game__input visually-hidden" type="checkbox" name="answer"
                     defaultValue={`answer-${i}`}
