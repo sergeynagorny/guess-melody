@@ -1,9 +1,3 @@
-const AVATAR_URL = `https://randomuser.me/api/portraits/men`;
-
-const getRandomAvatar = () => {
-  return `${AVATAR_URL}/${Math.floor(Math.random() * (100 - 1)) + 1}.jpg`;
-};
-
 export default [
   {
     type: `genre`,
@@ -28,13 +22,13 @@ export default [
       src: `https://upload.wikimedia.org/wikipedia/commons/4/4e/BWV_543-fugue.ogg`,
     },
     answers: [{
-      picture: getRandomAvatar(),
+      picture: `https://randomuser.me/api/portraits/men/1.jpg`,
       artist: `John Snow`,
     }, {
-      picture: getRandomAvatar(),
+      picture: `https://randomuser.me/api/portraits/men/2.jpg`,
       artist: `Jack Daniels`,
     }, {
-      picture: getRandomAvatar(),
+      picture: `https://randomuser.me/api/portraits/men/3.jpg`,
       artist: `Jim Beam`,
     }],
   }
