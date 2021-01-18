@@ -1,7 +1,11 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import HeaderMistakes from "../header-mistakes/header-mistakes";
 
-const GameHeader = () => {
+const GameHeader = (props) => {
+  const {mistakes} = props;
+
   return (
     <header className="game__header">
       <a className="game__back" href="#">
@@ -18,18 +22,18 @@ const GameHeader = () => {
           }}
         />
       </svg>
-
-      <div className="game__mistakes">
-        <div className="wrong"></div>
-        <div className="wrong"></div>
-        <div className="wrong"></div>
-      </div>
+      <HeaderMistakes count={mistakes} />
     </header>
   );
 };
 
 GameHeader.propTypes = {
+  mistakes: PropTypes.number.isRequired,
 };
 
+const mapStateToProps = (state) => ({
+  mistakes: state.mistakes,
+});
 
-export default GameHeader;
+export {GameHeader};
+export default connect(mapStateToProps)(GameHeader);
