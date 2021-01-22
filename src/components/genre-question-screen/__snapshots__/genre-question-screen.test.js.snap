@@ -24,11 +24,11 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
         <input
           checked={false}
           className="game__input visually-hidden"
-          defaultValue="answer-0"
           id="answer-0"
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-0"
         />
         <label
           className="game__check"
@@ -47,11 +47,11 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
         <input
           checked={false}
           className="game__input visually-hidden"
-          defaultValue="answer-1"
           id="answer-1"
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-1"
         />
         <label
           className="game__check"
@@ -70,11 +70,11 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
         <input
           checked={false}
           className="game__input visually-hidden"
-          defaultValue="answer-2"
           id="answer-2"
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-2"
         />
         <label
           className="game__check"
@@ -93,11 +93,11 @@ exports[`GenreQuestionScreen is rendered correctly 1`] = `
         <input
           checked={false}
           className="game__input visually-hidden"
-          defaultValue="answer-3"
           id="answer-3"
           name="answer"
           onChange={[Function]}
           type="checkbox"
+          value="answer-3"
         />
         <label
           className="game__check"
