@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import {getMistakes} from "../../reducer/game/selectors.js";
 import HeaderMistakes from "../header-mistakes/header-mistakes";
+
 
 const GameHeader = (props) => {
   const {mistakes} = props;
@@ -32,7 +34,7 @@ GameHeader.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  mistakes: state.mistakes,
+  mistakes: getMistakes(state),
 });
 
 export {GameHeader};
