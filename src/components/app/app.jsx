@@ -86,6 +86,7 @@ class App extends PureComponent {
           return (
             <GameScreen type={question.type}>
               <ArtistQuestionScreenWrapped
+                key={step}
                 question={question}
                 onAnswer={onUserAnswer}
               />
@@ -95,6 +96,7 @@ class App extends PureComponent {
           return (
             <GameScreen type={question.type}>
               <GenreQuestionScreenWrapped
+                key={step}
                 question={question}
                 onAnswer={onUserAnswer}
               />
