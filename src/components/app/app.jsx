@@ -1,9 +1,10 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
 import {connect} from "react-redux";
 
-import {GameType} from "../../const.js";
+import {AppRoute, GameType} from "../../const.js";
+import history from "../../history.js";
 
 import {ActionCreator} from "../../reducer/game/game.js";
 import {AuthorizationStatus} from "../../reducer/user/user.js";
@@ -12,6 +13,7 @@ import {getQuestions} from "../../reducer/data/selectors.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 
+import PrivateRoute from "../private-route/private-route.jsx";
 import AuthScreen from "../auth-screen/auth-screen.jsx";
 import WelcomeScreen from "../welcome-screen/welcome-screen";
 import GameScreen from "../game-screen/game-screen.jsx";
@@ -40,6 +42,7 @@ class App extends PureComponent {
       onWelcomeButtonClick,
       step
     } = this.props;
+
     const question = questions[step];
 
     if (step === -1) {
@@ -52,31 +55,15 @@ class App extends PureComponent {
     }
 
     if (mistakes >= maxMistakes) {
-      return (
-        <GameOverScreen
-          onReplayButtonClick={resetGame}
-        />
-      );
+      return history.push(AppRoute.LOSE);
     }
 
     if (step >= questions.length) {
       if (authorizationStatus === AuthorizationStatus.AUTH) {
-        return (
-          <WinScreen
-            questionsCount={questions.length}
-            mistakesCount={mistakes}
-            onReplayButtonClick={resetGame}
-          />
-        );
+        return history.push(AppRoute.RESULT);
       } else if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
-        return (
-          <AuthScreen
-            onReplayButtonClick={resetGame}
-            onSubmit={login}
-          />
-        );
+        return history.push(AppRoute.LOGIN);
       }
-
       return null;
     }
 
@@ -109,38 +96,42 @@ class App extends PureComponent {
   }
 
   render() {
-    const {questions, login, resetGame} = this.props;
+    const {questions, mistakes, login, resetGame} = this.props;
 
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path={AppRoute.ROOT}>
             {this._renderGameScreen()}
           </Route>
-          <Route exact path="/artist">
-            <GameScreen type={GameType.ARTIST}>
-              <ArtistQuestionScreenWrapped
-                question={questions[1]}
-                onAnswer={() => { }}
-              />
-            </GameScreen>
-          </Route>
-          <Route exact path="/genre">
-            <GameScreen type={GameType.GENRE}>
-              <GenreQuestionScreenWrapped
-                question={questions[0]}
-                onAnswer={() => { }}
-              />
-            </GameScreen>
-          </Route>
-          <Route exact path="/dev-auth">
+
+          <Route exact path={AppRoute.LOGIN}>
             <AuthScreen
               onReplayButtonClick={resetGame}
               onSubmit={login}
             />
           </Route>
+
+          <Route exact path={AppRoute.LOSE}>
+            <GameOverScreen
+              onReplayButtonClick={resetGame}
+            />
+          </Route>
+
+          <PrivateRoute exact path={AppRoute.RESULT}
+            render={() => {
+              return (
+                <WinScreen
+                  questionsCount={questions.length}
+                  mistakesCount={mistakes}
+                  onReplayButtonClick={resetGame}
+                />
+              );
+            }}
+          />
+
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
